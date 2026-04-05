@@ -1,0 +1,85 @@
+import CompanyRepositories from '../repositories/company-repositories.js';
+import response from '../../../utils/response.js';
+import NotFoundError from '../../../exceptions/not-found-error.js';
+
+export const createCompany = async (req, res, next) => {
+  try {
+    const { name, location, description } = req.validated;
+    const companyId = await CompanyRepositories.createCompany({
+      name,
+      location,
+      description,
+    });
+
+    return response(res, 201, 'Company berhasil ditambahkan', { id: companyId });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getCompanies = async (req, res, next) => {
+  try {
+    const companies = await CompanyRepositories.getCompanies();
+
+    return response(res, 200, 'Companies berhasil ditampilkan', { companies });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getCompanyById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const company = await CompanyRepositories.getCompanyById(id);
+
+    if (!company) {
+      return next(new NotFoundError('Company tidak ditemukan'));
+    }
+
+    return response(res, 200, 'Company berhasil ditampilkan', company);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const editCompany = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, location, description } = req.validated;
+
+    const company = await CompanyRepositories.editCompany({
+      id,
+      name,
+      location,
+      description,
+    });
+
+    if (!company) {
+      return next(new NotFoundError('Company tidak ditemukan'));
+    }
+
+    return response(res, 200, 'Company berhasil diubah');
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteCompany = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deletedCompany = await CompanyRepositories.deleteCompany(id);
+
+    if (!deletedCompany) {
+      return next(new NotFoundError('Company tidak ditemukan'));
+    }
+
+    return response(res, 200, 'Company berhasil dihapus');
+
+  } catch (error) {
+    next(error);
+  }
+};
