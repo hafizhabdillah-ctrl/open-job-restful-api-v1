@@ -49,7 +49,6 @@ export const editCompany = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, location, description } = req.validated;
-
     const company = await CompanyRepositories.editCompany({
       id,
       name,
@@ -61,7 +60,7 @@ export const editCompany = async (req, res, next) => {
       return next(new NotFoundError('Company tidak ditemukan'));
     }
 
-    return response(res, 200, 'Company berhasil diubah');
+    return response(res, 200, 'Company berhasil diperbarui');
 
   } catch (error) {
     next(error);
