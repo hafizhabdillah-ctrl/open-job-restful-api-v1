@@ -37,6 +37,7 @@ class CompanyRepositories {
     if (result.rowCount === 0) {
       return null;
     }
+
     return result.rows[0];
   }
 
