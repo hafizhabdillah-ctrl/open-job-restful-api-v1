@@ -24,7 +24,7 @@ class JobRepositories {
     const id = nanoid(16);
     const query = {
       text: 'INSERT INTO jobs(id, company_id, category_id, title, description, job_type, experience_level, location_type, location_city, salary_min, salary_max, is_salary_visible, status) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id',
-      values: [id, company_id, category_id, title, description, job_type, experience_level, location_type, location_city, salary_min, salary_max, is_salary_visible, status]
+      values: [id, company_id, category_id, title, description, job_type, experience_level, location_type, location_city || 'tidak ditentukan', salary_min || 0, salary_max || 0, is_salary_visible || false, status]
     };
 
     const result = await this.pool.query(query);

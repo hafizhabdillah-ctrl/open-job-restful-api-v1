@@ -45,7 +45,7 @@ export const getJobs = async (req, res, next) => {
     const { title, 'company-name': companyName } = req.validated;
     const jobs = await JobRepositories.getJobs(title, companyName);
 
-    return response(res, 200, 'Berhasil mendapatkan data lowongan kerja', { jobs });
+    return response(res, 200, 'Berhasil mendapatkan data job', { jobs });
 
   } catch (error) {
     next(error);
