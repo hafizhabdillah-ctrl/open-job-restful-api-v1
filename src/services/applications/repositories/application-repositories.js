@@ -10,7 +10,6 @@ class ApplicationRepositories {
 
   async createApplication({ user_id, job_id, status }) {
     const id = nanoid(16);
-
     const query = {
       text: 'INSERT INTO applications(id, user_id, job_id, status) VALUES($1, $2, $3, $4) RETURNING id',
       values: [id, user_id, job_id, status || 'pending'],
